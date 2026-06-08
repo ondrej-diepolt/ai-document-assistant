@@ -1,9 +1,12 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
 from app.core.logging import configure_logging
+from app.db.database import get_db
 
 configure_logging()
 settings = get_settings()
@@ -18,3 +21,9 @@ app = FastAPI(title=settings.app_name)
 def health() -> dict[str, str]:
     logger.debug("Health check requested")
     return {"status": "ok"}
+
+
+@app.get("/health/db")
+def health_db(db: Session = Depends(get_db)) -> dict[str, str]:
+    db.execute(text("SELECT 1"))
+    return {"status": "ok", "database": "connected"}
