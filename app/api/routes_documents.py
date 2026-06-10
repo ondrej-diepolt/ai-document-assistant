@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
-from app.db import repositories
 from app.db.database import get_db
 from app.schemas.documents import DocumentRead
+from app.services import document_service
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -19,9 +19,11 @@ def upload_document(
             detail="Only PDF files are supported.",
         )
 
-    document = repositories.create_document(
+    data = file.file.read()
+    document = document_service.create_document_from_upload(
         db,
         filename=file.filename or "unknown.pdf",
         content_type=file.content_type,
+        data=data,
     )
     return document
