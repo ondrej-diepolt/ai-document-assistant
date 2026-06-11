@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.db.models import Document
+from app.db.models import Chunk, Document
 
 
 def create_document(
@@ -11,3 +11,7 @@ def create_document(
     db.commit()
     db.refresh(document)
     return document
+
+def create_chunks(db: Session, chunks: list[Chunk]) -> None:
+    db.add_all(chunks)
+    db.commit()
