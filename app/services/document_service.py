@@ -6,6 +6,7 @@ from app.db import repositories
 from app.db.models import Chunk, Document
 from app.services.chunking import chunk_text
 from app.services.pdf_parser import extract_pages
+from app.services.embedding_client import get_embedding_client
 
 
 def create_document_from_upload(
@@ -20,6 +21,7 @@ def create_document_from_upload(
 
     chunks = _build_chunks(document.id, pages)
     if chunks:
+        _attach_embeddings(chunks)
         repositories.create_chunks(db, chunks)
 
     return document
@@ -40,3 +42,9 @@ def _build_chunks(document_id: uuid.UUID, pages: list[str]) -> list[Chunk]:
             )
             index += 1
     return chunks
+
+def _attach_embeddings(chunks: list[Chunk]) -> None:
+    client = get_embedding_client()
+    vectors = client.embed_texts([chunk.content for chunk in chunks])
+    for chunk, vector in zip(chunks, vectors, strict=True):
+        chunk.embedding = vector
