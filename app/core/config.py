@@ -2,6 +2,8 @@ from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+EMBEDDING_DIMENSION = 384
+
 
 class Settings(BaseSettings):
     app_name: str = "AI Document Assistant"
