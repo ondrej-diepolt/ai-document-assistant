@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     app_name: str = "AI Document Assistant"
     environment: str = "development"
     log_level: str = "INFO"
+    
+    gemini_api_key: str
+    gemini_model: str = "gemini-2.5-flash"
 
     postgres_user: str = "app"
     postgres_password: str = "app_secret_local"
