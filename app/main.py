@@ -1,6 +1,7 @@
 import logging
 
 from app.api import routes_documents
+from app.api import routes_query
 
 from fastapi import Depends, FastAPI
 from sqlalchemy import text
@@ -18,6 +19,7 @@ logger.info("Starting %s in %s environment", settings.app_name, settings.environ
 
 app = FastAPI(title=settings.app_name)
 app.include_router(routes_documents.router)
+app.include_router(routes_query.router)
 
 
 @app.get("/health")

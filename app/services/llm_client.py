@@ -24,7 +24,7 @@ class GeminiClient(LLMClient):
             model=self._model,
             contents=prompt,
         )
-        return response.text
+        return response.text or ""
 
 
 @lru_cache
