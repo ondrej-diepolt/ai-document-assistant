@@ -1,11 +1,12 @@
 from app.db.models import Chunk
 
+NOT_FOUND_MESSAGE = "Tato informace se v dokumentech nenachází."
 
-SYSTEM_RULES = """Jsi asistent, který odpovídá na otázky výhradně na základě poskytnutého kontextu z dokumentů.
+SYSTEM_RULES = f"""Jsi asistent, který odpovídá na otázky výhradně na základě poskytnutého kontextu z dokumentů.
 
 Pravidla:
 - Odpovídej POUZE na základě kontextu níže. Nepoužívej žádné vlastní ani externí znalosti.
-- Pokud odpověď v kontextu není, odpověz přesně: "Tato informace se v dokumentech nenachází."
+- Pokud odpověď v kontextu není, odpověz přesně: "{NOT_FOUND_MESSAGE}"
 - Odpovídej stručně, věcně a česky."""
 
 
